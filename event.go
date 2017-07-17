@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/g0tiu5a/g0tiu5a-bot/common"
 )
 
 type Event struct {
@@ -45,8 +43,7 @@ type Duration struct {
 }
 
 const (
-	URL_PREFIX = "https://ctftime.org/api/v1"
-	LIMIT      = 3
+	LIMIT = 3
 )
 
 func BuildUrl() string {
@@ -62,7 +59,7 @@ func GetAPIData() []Event {
 	if err != nil {
 		log.Fatal(err)
 	}
-	common.Decode(response, &events)
+	Decode(response, &events)
 
 	return events
 }

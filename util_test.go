@@ -1,4 +1,4 @@
-package common
+package ctftime
 
 import (
 	"bytes"
@@ -8,12 +8,7 @@ import (
 	"testing"
 )
 
-const (
-	BUFSIZE   = 1024
-	TEST_FILE = "./test_data/event_1.json"
-)
-
-func TestDecode(t *testing.T) {
+func TestDecodeJsonResponse(t *testing.T) {
 	buf, err := ioutil.ReadFile(TEST_FILE)
 	if err != nil {
 		log.Fatal(err)

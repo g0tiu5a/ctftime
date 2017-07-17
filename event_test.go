@@ -7,16 +7,9 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
-
-	"github.com/g0tiu5a/g0tiu5a-bot/common"
 )
 
-const (
-	BUFSIZE   = 1024
-	TEST_FILE = "./test_data/event_1.json"
-)
-
-func TestDecode(t *testing.T) {
+func TestDecodeGetAPIData(t *testing.T) {
 	result := GetAPIData()
 	body, _ := json.Marshal(result)
 	dummy_resp := &http.Response{
@@ -26,7 +19,7 @@ func TestDecode(t *testing.T) {
 		Body:       ioutil.NopCloser(bytes.NewReader(body)),
 	}
 	var api_data []Event
-	common.Decode(dummy_resp, &api_data)
+	Decode(dummy_resp, &api_data)
 
 	if len(api_data) != 3 {
 		t.Error("Invalid event length!")
