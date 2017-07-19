@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Decode(r *http.Response, v interface{}) {
+func HttpResponseToStruct(r *http.Response, v interface{}) {
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {

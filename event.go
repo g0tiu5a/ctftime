@@ -59,7 +59,7 @@ func GetAPIData() []Event {
 	if err != nil {
 		log.Fatal(err)
 	}
-	Decode(response, &events)
+	HttpResponseToStruct(response, &events)
 
 	return events
 }

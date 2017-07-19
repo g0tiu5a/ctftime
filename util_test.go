@@ -9,7 +9,7 @@ import (
 )
 
 func TestDecodeJsonResponse(t *testing.T) {
-	buf, err := ioutil.ReadFile(TEST_FILE)
+	buf, err := ioutil.ReadFile("./test_data/event_1.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,5 +27,5 @@ func TestDecodeJsonResponse(t *testing.T) {
 	}
 
 	var events []interface{}
-	Decode(response, &events)
+	HttpResponseToStruct(response, &events)
 }
