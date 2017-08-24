@@ -8,17 +8,16 @@ import (
 	"time"
 )
 
-const (
-	API_URL = API_ENDPOINT + "/events/"
-	LIMIT   = 3
-)
+type eventsAPIClient struct{}
 
-type EventsAPIClient struct{}
+func newEventsAPIClient(ctx map[string]interface{}) APIClient {
+	return &eventsAPIClient{}
+}
 
-func (client *EventsAPIClient) GetUrl() string {
+func (client *eventsAPIClient) GetUrl() string {
 	now := time.Now().Unix()
 
-	req, err := http.NewRequest("GET", API_URL, nil)
+	req, err := http.NewRequest("GET", API_ENDPOINT+"/events/", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +30,7 @@ func (client *EventsAPIClient) GetUrl() string {
 	return req.URL.String()
 }
 
-func (client *EventsAPIClient) GetAPIData() interface{} {
+func (client *eventsAPIClient) GetAPIData() interface{} {
 	url := client.GetUrl()
 
 	resp, err := http.Get(url)
@@ -41,6 +40,6 @@ func (client *EventsAPIClient) GetAPIData() interface{} {
 	defer resp.Body.Close()
 
 	var events []Event
-	HttpResponseToStruct(resp, &events)
+	httpResponseToStruct(resp, &events)
 	return events
 }

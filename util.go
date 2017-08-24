@@ -10,7 +10,7 @@ import (
 
 /* Test */
 
-func GetTestData(fname string) []byte {
+func getTestData(fname string) []byte {
 	fpath := path.Join(test_dir, fname)
 
 	data, err := ioutil.ReadFile(fpath)
@@ -23,7 +23,7 @@ func GetTestData(fname string) []byte {
 
 /* HTTP */
 
-func HttpResponseToStruct(r *http.Response, v interface{}) {
+func httpResponseToStruct(r *http.Response, v interface{}) {
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {

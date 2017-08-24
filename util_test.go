@@ -14,7 +14,7 @@ const (
 )
 
 func TestGetTestData(t *testing.T) {
-	buf := GetTestData(testFile)
+	buf := getTestData(testFile)
 
 	data, err := ioutil.ReadFile(path.Join(test_dir, testFile))
 	if err != nil {
@@ -27,7 +27,7 @@ func TestGetTestData(t *testing.T) {
 }
 
 func TestDecodeJsonResponse(t *testing.T) {
-	buf := GetTestData("event_1.json")
+	buf := getTestData("event_1.json")
 
 	// Create HTTP Response
 	// 200 OK HTTP/1.0
@@ -42,5 +42,5 @@ func TestDecodeJsonResponse(t *testing.T) {
 	}
 
 	var events []interface{}
-	HttpResponseToStruct(response, &events)
+	httpResponseToStruct(response, &events)
 }
