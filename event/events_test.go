@@ -1,4 +1,4 @@
-package ctftime
+package event
 
 import (
 	"bytes"
@@ -7,10 +7,14 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/g0tiu5a/ctftime/common"
 )
 
-func TestDecodeGetAPIData(t *testing.T) {
-	result := GetAPIData()
+func TestDecodeGetEventsData(t *testing.T) {
+	client := &EventsAPIClient{}
+
+	result := client.GetAPIData()
 	body, _ := json.Marshal(result)
 	dummy_resp := &http.Response{
 		StatusCode: 200,
@@ -19,7 +23,7 @@ func TestDecodeGetAPIData(t *testing.T) {
 		Body:       ioutil.NopCloser(bytes.NewReader(body)),
 	}
 	var api_data []Event
-	HttpResponseToStruct(dummy_resp, &api_data)
+	common.HttpResponseToStruct(dummy_resp, &api_data)
 
 	if len(api_data) != 3 {
 		t.Error("Invalid event length!")

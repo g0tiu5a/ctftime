@@ -1,4 +1,4 @@
-package ctftime
+package common
 
 import (
 	"encoding/json"

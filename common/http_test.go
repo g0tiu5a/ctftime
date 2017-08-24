@@ -1,18 +1,14 @@
-package ctftime
+package common
 
 import (
 	"bytes"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"testing"
 )
 
 func TestDecodeJsonResponse(t *testing.T) {
-	buf, err := ioutil.ReadFile("./test_data/event_1.json")
-	if err != nil {
-		log.Fatal(err)
-	}
+	buf := GetTestData("event_1.json")
 
 	// Create HTTP Response
 	// 200 OK HTTP/1.0

@@ -1,12 +1,8 @@
-package ctftime
+package event
 
-import (
-	"fmt"
-	"log"
-	"net/http"
-	"strconv"
-	"time"
-)
+import "time"
+
+/* Struct */
 
 type Event struct {
 	Organizers    []Organizer `json:"organizers"`
@@ -40,26 +36,4 @@ type Organizer struct {
 type Duration struct {
 	Hours int `json:"hours"`
 	Days  int `json:"days"`
-}
-
-const (
-	LIMIT = 3
-)
-
-func BuildUrl() string {
-	now := time.Now().Unix()
-	url := URL_PREFIX + "/events/?limit=" + fmt.Sprintf("%d", LIMIT) + "&start=" + strconv.FormatInt(now, 10)
-	return url
-}
-
-func GetAPIData() []Event {
-	var events []Event
-	url := BuildUrl()
-	response, err := http.Get(url)
-	if err != nil {
-		log.Fatal(err)
-	}
-	HttpResponseToStruct(response, &events)
-
-	return events
 }
