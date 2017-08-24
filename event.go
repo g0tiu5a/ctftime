@@ -1,4 +1,4 @@
-package event
+package ctftime
 
 import "time"
 

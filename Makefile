@@ -5,10 +5,3 @@ TEST_PKGS=common event
 
 .PHONY: test
 
-test:
-	@for pkg in $(TEST_PKGS); do\
-		(\
-			cd $$pkg && \
-				$(TEST)\
-		);\
-	done

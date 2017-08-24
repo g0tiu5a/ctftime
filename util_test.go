@@ -1,11 +1,30 @@
-package common
+package ctftime
 
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"path"
 	"testing"
 )
+
+const (
+	testFile = "event_1.json"
+)
+
+func TestGetTestData(t *testing.T) {
+	buf := GetTestData(testFile)
+
+	data, err := ioutil.ReadFile(path.Join(test_dir, testFile))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if string(buf) != string(data) {
+		t.Errorf("Data doesn't match %v != %v\n", buf, data)
+	}
+}
 
 func TestDecodeJsonResponse(t *testing.T) {
 	buf := GetTestData("event_1.json")

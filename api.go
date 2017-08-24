@@ -1,4 +1,4 @@
-package main
+package ctftime
 
 type APIClient interface {
 	GetUrl() string

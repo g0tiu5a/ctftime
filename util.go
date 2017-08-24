@@ -1,11 +1,27 @@
-package common
+package ctftime
 
 import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"path"
 )
+
+/* Test */
+
+func GetTestData(fname string) []byte {
+	fpath := path.Join(test_dir, fname)
+
+	data, err := ioutil.ReadFile(fpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return data
+}
+
+/* HTTP */
 
 func HttpResponseToStruct(r *http.Response, v interface{}) {
 	defer r.Body.Close()
