@@ -31,7 +31,7 @@ func (client *EventsAPIClient) GetUrl() string {
 	return req.URL.String()
 }
 
-func (client *EventsAPIClient) GetAPIData() []Event {
+func (client *EventsAPIClient) GetAPIData() interface{} {
 	url := client.GetUrl()
 
 	resp, err := http.Get(url)

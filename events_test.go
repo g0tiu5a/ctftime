@@ -10,6 +10,17 @@ import (
 	"testing"
 )
 
+func TestAPIClient(t *testing.T) {
+	var client interface{} = &EventsAPIClient{}
+
+	if valid, ok := client.(APIClient); ok {
+		valid.GetUrl()
+		valid.GetAPIData()
+	} else {
+		t.Errorf("Invalid Typeof API Client %#v!", client)
+	}
+}
+
 func TestGetEventsData(t *testing.T) {
 	client := &EventsAPIClient{}
 
