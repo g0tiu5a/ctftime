@@ -1,4 +1,3 @@
-// api.goは、ctftimeパッケージのコアとなるソースコードです
 package ctftime
 
 import (
