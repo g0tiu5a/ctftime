@@ -1,44 +1,53 @@
+// api.goは、ctftimeパッケージのコアとなるソースコードです
 package ctftime
 
 import (
 	"log"
-	"sync"
 )
 
-type APIClient interface {
+type apiClient interface {
 	GetUrl() string
 	GetAPIData() interface{}
 }
 
-type APIClientFactory func(ctx map[string]interface{}) APIClient
+type apiContext map[string]interface{}
+type apiClientFactory func(ctx apiContext) apiClient
 
-var (
-	APIClientFactories = make(map[string]APIClientFactory)
-	once               sync.Once
-)
+var apiClientFactories = make(map[string]apiClientFactory)
 
-func registerAPIClient(name string, factory APIClientFactory) {
+func registerAPIClient(name string, factory apiClientFactory) {
 	if factory == nil {
 		log.Panicf("API Client Factory %s does not exist.", name)
 	}
 
-	_, registered := APIClientFactories[name]
+	_, registered := apiClientFactories[name]
 	if registered {
 		log.Panicf("API Client Factory %s already registered. Ignoring.", name)
 	}
 
-	APIClientFactories[name] = factory
+	apiClientFactories[name] = factory
 }
 
-func NewAPIClient(name string, ctx map[string]interface{}) APIClient {
-	once.Do(func() {
-		registerAPIClient("events", newEventsAPIClient)
-	})
+// この関数はパッケージがimportされた時に呼び出されます
+func init() {
+	registerAPIClient("events", newEventsAPIClient)
+}
 
-	clientFactory, ok := APIClientFactories[name]
+func newAPIClient(name string, ctx apiContext) apiClient {
+	clientFactory, ok := apiClientFactories[name]
 	if !ok {
 		log.Panicf("Invalid API Client name!")
 	}
 
 	return clientFactory(ctx)
+}
+
+func GetUrl(name string, ctx apiContext) string {
+	client := newAPIClient(name, ctx)
+	return client.GetUrl()
+}
+
+func GetAPIData(name string, ctx map[string]interface{}) interface{} {
+	client := newAPIClient(name, ctx)
+	return client.GetAPIData()
 }

@@ -8,10 +8,14 @@ import (
 	"time"
 )
 
-type eventsAPIClient struct{}
+type eventsAPIClient struct {
+	Ctx apiContext
+}
 
-func newEventsAPIClient(ctx map[string]interface{}) APIClient {
-	return &eventsAPIClient{}
+func newEventsAPIClient(ctx apiContext) apiClient {
+	return &eventsAPIClient{
+		Ctx: ctx,
+	}
 }
 
 func (client *eventsAPIClient) GetUrl() string {

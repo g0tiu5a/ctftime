@@ -11,7 +11,7 @@ import (
 )
 
 func TestGetEventsData(t *testing.T) {
-	client := NewAPIClient("events", nil)
+	client := newAPIClient("events", nil)
 
 	result := client.GetAPIData()
 
@@ -20,20 +20,20 @@ func TestGetEventsData(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	resp := &http.Response{
+	dummy_resp := &http.Response{
 		StatusCode: 200,
 		ProtoMajor: 1,
 		ProtoMinor: 0,
 		Body:       ioutil.NopCloser(bytes.NewReader(body)),
 	}
 
-	var events []Event
-	httpResponseToStruct(resp, &events)
-	if len(events) != 3 {
+	var dummy_events []Event
+	httpResponseToStruct(dummy_resp, &dummy_events)
+	if len(dummy_events) != 3 {
 		t.Error("Invalid event length!")
 	}
 
-	for _, event := range events {
+	for _, event := range dummy_events {
 		valid := reflect.TypeOf(Event{})
 		actual := reflect.TypeOf(event)
 		if actual != valid {
