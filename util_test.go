@@ -5,14 +5,29 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"path"
 	"testing"
 )
 
-func TestDecodeJsonResponse(t *testing.T) {
-	buf, err := ioutil.ReadFile("./test_data/event_1.json")
+const (
+	testFile = "event_1.json"
+)
+
+func TestGetTestData(t *testing.T) {
+	buf := getTestData(testFile)
+
+	data, err := ioutil.ReadFile(path.Join(test_dir, testFile))
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	if string(buf) != string(data) {
+		t.Errorf("Data doesn't match %v != %v\n", buf, data)
+	}
+}
+
+func TestDecodeJsonResponse(t *testing.T) {
+	buf := getTestData("event_1.json")
 
 	// Create HTTP Response
 	// 200 OK HTTP/1.0
@@ -27,5 +42,5 @@ func TestDecodeJsonResponse(t *testing.T) {
 	}
 
 	var events []interface{}
-	HttpResponseToStruct(response, &events)
+	httpResponseToStruct(response, &events)
 }

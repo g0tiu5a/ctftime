@@ -25,6 +25,6 @@ jobs:
           key: glide-cache-{{ checksum "glide.lock" }}
           paths: vendor/
 
-      - run: go get -v -t -d ./...
+      - run: glide install
       - run: go build
       - run: go test -v $(go list ./... | grep -v /vendor/)

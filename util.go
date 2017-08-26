@@ -5,9 +5,25 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"path"
 )
 
-func HttpResponseToStruct(r *http.Response, v interface{}) {
+/* Test */
+
+func getTestData(fname string) []byte {
+	fpath := path.Join(test_dir, fname)
+
+	data, err := ioutil.ReadFile(fpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return data
+}
+
+/* HTTP */
+
+func httpResponseToStruct(r *http.Response, v interface{}) {
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
