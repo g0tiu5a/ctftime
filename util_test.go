@@ -57,6 +57,6 @@ func TestHttpResponseToMap(t *testing.T) {
 		Body:       ioutil.NopCloser(bytes.NewReader(buf)),
 	}
 
-	var top10 Top10
+	var top10 Top10s
 	httpResponseToMap(response, &top10)
 }
