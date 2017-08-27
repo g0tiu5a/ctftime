@@ -9,13 +9,17 @@ import (
 )
 
 type eventsAPIClient struct {
-	Ctx apiContext
+	Ctx APIContext
 }
 
-func newEventsAPIClient(ctx apiContext) apiClient {
+func newEventsAPIClient(ctx APIContext) apiClient {
 	return &eventsAPIClient{
 		Ctx: ctx,
 	}
+}
+
+func init() {
+	registerAPIClient("events", newEventsAPIClient)
 }
 
 func (client *eventsAPIClient) GetUrl() string {
