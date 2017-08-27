@@ -10,7 +10,7 @@ func main() {
 	url := ctftime.GetUrl("events", nil)
 	fmt.Printf("[==>] Requesting %s ...\n", url)
 	events := ctftime.GetAPIData("events", nil)
-	for idx, event := range events.([]ctftime.Event) {
+	for idx, event := range events.(ctftime.Events) {
 		fmt.Printf("[event%d]\n", idx)
 		fmt.Printf("%#v\n", event)
 	}

@@ -47,7 +47,7 @@ func (client *eventsAPIClient) GetAPIData() interface{} {
 	}
 	defer resp.Body.Close()
 
-	var events []Event
+	var events Events
 	httpResponseToStruct(resp, &events)
 	return events
 }
