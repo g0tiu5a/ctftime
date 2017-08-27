@@ -6,4 +6,5 @@ type Team struct {
 	Points   float64 `json:"points"`
 }
 
-type Top10 map[string][]Team
+type Top10 []Team
+type Top10s map[string]Top10

@@ -37,7 +37,12 @@ func (client *top10APIClient) GetAPIData() interface{} {
 	}
 	defer resp.Body.Close()
 
-	var top10s Top10
+	var top10s Top10s
 	httpResponseToMap(resp, &top10s)
-	return top10s
+	if year, ok := client.Ctx["year"]; ok {
+		var top10 Top10 = top10s[year.(string)]
+		return top10
+	} else {
+		return top10s
+	}
 }

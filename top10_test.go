@@ -27,7 +27,7 @@ func TestGetTop10Data(t *testing.T) {
 		Body:       ioutil.NopCloser(bytes.NewReader(body)),
 	}
 
-	var dummy_top10 Top10
+	var dummy_top10 Top10s
 	httpResponseToMap(dummy_resp, &dummy_top10)
 	if len(dummy_top10["2017"]) != 10 {
 		t.Error("Invalid top10 of 2017 length!")
