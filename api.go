@@ -41,7 +41,7 @@ func GetUrl(name string, ctx APIContext) string {
 	return client.GetUrl()
 }
 
-func GetAPIData(name string, ctx map[string]interface{}) interface{} {
+func GetAPIData(name string, ctx APIContext) interface{} {
 	client := newAPIClient(name, ctx)
 	return client.GetAPIData()
 }
