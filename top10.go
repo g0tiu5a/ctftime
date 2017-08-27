@@ -1,5 +1,10 @@
 package ctftime
 
+import (
+	"log"
+	"net/http"
+)
+
 type top10APIClient struct {
 	Ctx APIContext
 }
@@ -15,9 +20,24 @@ func init() {
 }
 
 func (client *top10APIClient) GetUrl() string {
-	return ""
+	url := API_ENDPOINT + "/top/"
+	if year, ok := client.Ctx["year"]; ok {
+		url = url + year.(string) + "/"
+	}
+
+	return url
 }
 
 func (client *top10APIClient) GetAPIData() interface{} {
-	return nil
+	url := client.GetUrl()
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var top10s Top10
+	httpResponseToMap(resp, &top10s)
+	return top10s
 }
