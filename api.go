@@ -9,8 +9,8 @@ type apiClient interface {
 	GetAPIData() interface{}
 }
 
-type apiContext map[string]interface{}
-type apiClientFactory func(ctx apiContext) apiClient
+type APIContext map[string]interface{}
+type apiClientFactory func(ctx APIContext) apiClient
 
 var apiClientFactories = make(map[string]apiClientFactory)
 
@@ -27,12 +27,7 @@ func registerAPIClient(name string, factory apiClientFactory) {
 	apiClientFactories[name] = factory
 }
 
-// この関数はパッケージがimportされた時に呼び出されます
-func init() {
-	registerAPIClient("events", newEventsAPIClient)
-}
-
-func newAPIClient(name string, ctx apiContext) apiClient {
+func newAPIClient(name string, ctx APIContext) apiClient {
 	clientFactory, ok := apiClientFactories[name]
 	if !ok {
 		log.Panicf("Invalid API Client name!")
@@ -41,7 +36,7 @@ func newAPIClient(name string, ctx apiContext) apiClient {
 	return clientFactory(ctx)
 }
 
-func GetUrl(name string, ctx apiContext) string {
+func GetUrl(name string, ctx APIContext) string {
 	client := newAPIClient(name, ctx)
 	return client.GetUrl()
 }
