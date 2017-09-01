@@ -37,3 +37,5 @@ type Duration struct {
 	Hours int `json:"hours"`
 	Days  int `json:"days"`
 }
+
+type Events []Event
