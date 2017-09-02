@@ -25,7 +25,7 @@ func init() {
 func (client *eventsAPIClient) GetUrl() string {
 	now := time.Now().Unix()
 
-	req, err := http.NewRequest("GET", API_ENDPOINT+"/events/", nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/events/", API_ENDPOINT), nil)
 	if err != nil {
 		log.Fatal(err)
 	}

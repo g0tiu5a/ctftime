@@ -1,6 +1,7 @@
 package ctftime
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -20,9 +21,9 @@ func init() {
 }
 
 func (client *top10APIClient) GetUrl() string {
-	url := API_ENDPOINT + "/top/"
+	url := fmt.Sprintf("%s/top/", API_ENDPOINT)
 	if year, ok := client.Ctx["year"]; ok {
-		url = url + year.(string) + "/"
+		url = fmt.Sprintf("%s%s/", url, year.(string))
 	}
 
 	return url
