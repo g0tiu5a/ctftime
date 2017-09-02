@@ -26,7 +26,7 @@ func TestGetTestData(t *testing.T) {
 	}
 }
 
-func TestDecodeJsonResponse(t *testing.T) {
+func TestHttpResponseToStruct(t *testing.T) {
 	buf := getTestData("event_1.json")
 
 	// Create HTTP Response
@@ -43,4 +43,20 @@ func TestDecodeJsonResponse(t *testing.T) {
 
 	var events []interface{}
 	httpResponseToStruct(response, &events)
+}
+
+func TestHttpResponseToMap(t *testing.T) {
+	buf := getTestData("top10_1.json")
+
+	response := &http.Response{
+		Status:     "200 OK",
+		StatusCode: 200,
+		Proto:      "HTTP/1.0",
+		ProtoMajor: 1,
+		ProtoMinor: 0,
+		Body:       ioutil.NopCloser(bytes.NewReader(buf)),
+	}
+
+	var top10 Top10s
+	httpResponseToMap(response, &top10)
 }
