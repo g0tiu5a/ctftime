@@ -10,8 +10,8 @@ func GetTop10() {
 	url := ctftime.GetUrl("top10", nil)
 	fmt.Printf("[==>] Requesting %s ...\n", url)
 
-	top10s := ctftime.GetAPIData("top10", nil)
-	for key, top10 := range top10s.(ctftime.Top10s) {
+	top10s := ctftime.GetAPIData("top10", nil).(ctftime.Top10s)
+	for key, top10 := range top10s {
 		fmt.Printf("[%s]", key)
 		for idx, team := range top10 {
 			fmt.Printf("	[%d] %#v\n", idx, team)
@@ -27,8 +27,8 @@ func Get2017Top10() {
 	url := ctftime.GetUrl("top10", ctx)
 	fmt.Printf("[==>] Requesting %s ...\n", url)
 
-	top10 := ctftime.GetAPIData("top10", ctx)
-	for idx, team := range top10.(ctftime.Top10) {
+	top10 := ctftime.GetAPIData("top10", ctx).(ctftime.Top10)
+	for idx, team := range top10 {
 		fmt.Printf("	[%d] %#v\n", idx, team)
 	}
 }
