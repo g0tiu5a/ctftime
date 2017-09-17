@@ -2,7 +2,6 @@ package ctftime
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -20,21 +19,24 @@ func init() {
 	registerAPIClient("top10", newTop10APIClient)
 }
 
-func (client *top10APIClient) GetUrl() string {
+func (client *top10APIClient) GetUrl() (string, error) {
 	url := fmt.Sprintf("%s/top/", API_ENDPOINT)
 	if year, ok := client.Ctx["year"]; ok {
 		url = fmt.Sprintf("%s%s/", url, year.(string))
 	}
 
-	return url
+	return url, nil
 }
 
-func (client *top10APIClient) GetAPIData() interface{} {
-	url := client.GetUrl()
+func (client *top10APIClient) GetAPIData() (interface{}, error) {
+	url, err := client.GetUrl()
+	if err != nil {
+		return nil, err
+	}
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer resp.Body.Close()
 
@@ -42,8 +44,8 @@ func (client *top10APIClient) GetAPIData() interface{} {
 	httpResponseToMap(resp, &top10s)
 	if year, ok := client.Ctx["year"]; ok {
 		var top10 Top10 = top10s[year.(string)]
-		return top10
+		return top10, nil
 	} else {
-		return top10s
+		return top10s, nil
 	}
 }

@@ -11,9 +11,15 @@ import (
 )
 
 func TestGetTop10Data(t *testing.T) {
-	client := newAPIClient("top10", nil)
+	client, err := newAPIClient("top10", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	result := client.GetAPIData()
+	result, err := client.GetAPIData()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	body, err := json.Marshal(result)
 	if err != nil {
