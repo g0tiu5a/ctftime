@@ -11,9 +11,15 @@ import (
 )
 
 func TestGetEventsData(t *testing.T) {
-	client := newAPIClient("events", nil)
+	client, err := newAPIClient("events", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	result := client.GetAPIData()
+	result, err := client.GetAPIData()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	body, err := json.Marshal(result)
 	if err != nil {

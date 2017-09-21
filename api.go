@@ -1,12 +1,13 @@
 package ctftime
 
 import (
+	"errors"
 	"log"
 )
 
 type apiClient interface {
-	GetUrl() string
-	GetAPIData() interface{}
+	GetUrl() (string, error)
+	GetAPIData() (interface{}, error)
 }
 
 type APIContext map[string]interface{}
@@ -27,21 +28,35 @@ func registerAPIClient(name string, factory apiClientFactory) {
 	apiClientFactories[name] = factory
 }
 
-func newAPIClient(name string, ctx APIContext) apiClient {
+func newAPIClient(name string, ctx APIContext) (apiClient, error) {
 	clientFactory, ok := apiClientFactories[name]
 	if !ok {
-		log.Panicf("Invalid API Client name!")
+		return nil, errors.New("Invalid API Client name!")
 	}
 
-	return clientFactory(ctx)
+	return clientFactory(ctx), nil
 }
 
-func GetUrl(name string, ctx APIContext) string {
-	client := newAPIClient(name, ctx)
-	return client.GetUrl()
+func GetUrl(name string, ctx APIContext) (string, error) {
+	client, err := newAPIClient(name, ctx)
+	if err != nil {
+		return "", err
+	}
+	url, err := client.GetUrl()
+	if err != nil {
+		return "", err
+	}
+	return url, nil
 }
 
-func GetAPIData(name string, ctx APIContext) interface{} {
-	client := newAPIClient(name, ctx)
-	return client.GetAPIData()
+func GetAPIData(name string, ctx APIContext) (interface{}, error) {
+	client, err := newAPIClient(name, ctx)
+	if err != nil {
+		return nil, err
+	}
+	data, err := client.GetAPIData()
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }

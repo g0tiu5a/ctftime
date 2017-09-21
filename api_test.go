@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -11,7 +12,10 @@ import (
 )
 
 func TestEventsAPIClient(t *testing.T) {
-	var client interface{} = newAPIClient("events", nil)
+	client, err := newAPIClient("events", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if valid, ok := client.(apiClient); ok {
 		valid.GetUrl()
@@ -22,16 +26,22 @@ func TestEventsAPIClient(t *testing.T) {
 }
 
 func TestGetUrl(t *testing.T) {
-	apiUrl := GetUrl("events", nil)
+	apiUrl, err := GetUrl("events", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	_, err := url.Parse(apiUrl)
+	_, err = url.Parse(apiUrl)
 	if err != nil {
 		t.Errorf("Invalid URL %#v\n", apiUrl)
 	}
 }
 
 func TestGetAPIData(t *testing.T) {
-	data := GetAPIData("events", nil)
+	data, err := GetAPIData("events", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	body, err := json.Marshal(data)
 	if err != nil {

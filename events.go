@@ -2,7 +2,6 @@ package ctftime
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -22,12 +21,12 @@ func init() {
 	registerAPIClient("events", newEventsAPIClient)
 }
 
-func (client *eventsAPIClient) GetUrl() string {
+func (client *eventsAPIClient) GetUrl() (string, error) {
 	now := time.Now().Unix()
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/events/", API_ENDPOINT), nil)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	q := req.URL.Query()
@@ -35,19 +34,22 @@ func (client *eventsAPIClient) GetUrl() string {
 	q.Add("start", strconv.FormatInt(now, 10))
 	req.URL.RawQuery = q.Encode()
 
-	return req.URL.String()
+	return req.URL.String(), nil
 }
 
-func (client *eventsAPIClient) GetAPIData() interface{} {
-	url := client.GetUrl()
+func (client *eventsAPIClient) GetAPIData() (interface{}, error) {
+	url, err := client.GetUrl()
+	if err != nil {
+		return nil, err
+	}
 
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	var events Events
 	httpResponseToStruct(resp, &events)
-	return events
+	return events, nil
 }

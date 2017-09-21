@@ -2,15 +2,28 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/g0tiu5a/ctftime"
 )
 
 func GetTop10() {
-	url := ctftime.GetUrl("top10", nil)
+	url, err := ctftime.GetUrl("top10", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Printf("[==>] Requesting %s ...\n", url)
 
-	top10s := ctftime.GetAPIData("top10", nil).(ctftime.Top10s)
+	obj, err := ctftime.GetAPIData("top10", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	top10s, ok := obj.(ctftime.Top10s)
+	if !ok {
+		log.Fatal("top10")
+	}
+
 	for key, top10 := range top10s {
 		fmt.Printf("[%s]", key)
 		for idx, team := range top10 {
@@ -24,10 +37,22 @@ func Get2017Top10() {
 	ctx := ctftime.APIContext{
 		"year": "2017",
 	}
-	url := ctftime.GetUrl("top10", ctx)
+	url, err := ctftime.GetUrl("top10", ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Printf("[==>] Requesting %s ...\n", url)
 
-	top10 := ctftime.GetAPIData("top10", ctx).(ctftime.Top10)
+	obj, err := ctftime.GetAPIData("top10", ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	top10, ok := obj.(ctftime.Top10)
+	if !ok {
+		log.Fatal("top10")
+	}
+
 	for idx, team := range top10 {
 		fmt.Printf("	[%d] %#v\n", idx, team)
 	}
