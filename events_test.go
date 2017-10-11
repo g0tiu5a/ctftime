@@ -47,3 +47,35 @@ func TestGetEventsData(t *testing.T) {
 		}
 	}
 }
+
+func TestGetEventData(t *testing.T) {
+	ctx := APIContext{
+		"event_id": 1,
+	}
+
+	result, err := GetAPIData("events", ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	body, err := json.Marshal(result)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dummy_resp := &http.Response{
+		StatusCode: 200,
+		ProtoMajor: 1,
+		ProtoMinor: 0,
+		Body:       ioutil.NopCloser(bytes.NewReader(body)),
+	}
+
+	var dummy_event Event
+	httpResponseToStruct(dummy_resp, &dummy_event)
+
+	valid := reflect.TypeOf(Event{})
+	actual := reflect.TypeOf(dummy_event)
+	if actual != valid {
+		t.Errorf("Invalid event type of %v! (should be %v).", actual, valid)
+	}
+}
