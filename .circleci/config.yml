@@ -11,7 +11,8 @@ jobs:
       # to install glide
       # Cache glide.sh
       - restore_cache:
-          keys: glide-{{ checksum "/tmp/get_glide" }}
+          keys:
+            - glide-{{ checksum "/tmp/get_glide" }}
       - run: curl https://glide.sh/get > /tmp/get_glide && sh /tmp/get_glide
       - save_cache:
           key: glide-{{ checksum "/tmp/get_glide" }}
